@@ -12,14 +12,22 @@ class PushArg implements EvcOp {
   // Set value at position to constant
   @override
   void run(Runtime runtime) {
-    print('ここに来てる？');
-    if (_location < 0 || _location >= runtime.frame.length) {
-      print('_locationがマイナス！');
-      // エラー処理または適切なデフォルト値の使用
-      runtime.args.add(null); // または他の適切なデフォルト値
-    } else {
-      print('ふつう！');
+    print('_location は $_location ');
+    if (_location >= 0) {
+      print('普通のとき');
+      // 通常の引数の場合
       runtime.args.add(runtime.frame[_location]);
+    } else {
+      print('負の時');
+      // 負の_locationの場合（組み込みメソッドなど）
+      var builtinMethod = runtime.getBuiltinMethod(_location);
+      if (builtinMethod != null) {
+        runtime.args.add(builtinMethod);
+      } else {
+        print('エラー');
+        // 適切なエラー処理
+        throw Exception('Invalid builtin method reference: $_location');
+      }
     }
   }
 

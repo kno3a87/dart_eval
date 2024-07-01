@@ -414,6 +414,19 @@ class Runtime {
     return (value?.$value).toString();
   }
 
+  dynamic getBuiltinMethod(int location) {
+    // 負のlocationに基づいて適切な組み込みメソッドを返す
+    switch (location) {
+      case -1:
+        return BuiltinMethod('print');
+      case -2:
+        return BuiltinMethod('toString');
+      // 他の組み込みメソッドも同様に
+      default:
+        return null;
+    }
+  }
+
   var _didSetup = false;
   var _bridgeLibraryMappings = <String, int>{};
   final _bridgeFunctions =
@@ -1055,4 +1068,25 @@ class WrappedException implements Exception {
   String toString() {
     return 'WrappedException: $exception';
   }
+}
+
+class BuiltinMethod implements $Value {
+  final String name;
+  BuiltinMethod(this.name);
+
+  @override
+  dynamic get $value => this;
+
+  @override
+  String toString() => 'Builtin method: $name';
+
+  @override
+  int $getRuntimeType(Runtime runtime) {
+    // TODO: implement $getRuntimeType
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement $reified
+  get $reified => throw UnimplementedError();
 }
