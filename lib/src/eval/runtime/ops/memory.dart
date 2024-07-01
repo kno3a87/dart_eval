@@ -12,7 +12,9 @@ class PushArg implements EvcOp {
   // Set value at position to constant
   @override
   void run(Runtime runtime) {
-    print('_location は $_location ');
+    print('_location は $_location');
+    print('runtime.frame は ${runtime.frame}');
+    print('runtime.args は ${runtime.args}');
     if (_location >= 0) {
       print('普通のとき');
       // 通常の引数の場合

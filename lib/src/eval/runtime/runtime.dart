@@ -870,6 +870,7 @@ class Runtime {
   /// Start program execution at a specific bytecode offset.
   /// Users should use [executeLib] instead.
   dynamic execute(int entrypoint) {
+    print('entrypoint: $entrypoint');
     _setup();
     _prOffset = entrypoint;
     try {
@@ -886,6 +887,7 @@ class Runtime {
     } on WrappedException catch (e) {
       throw e.exception;
     } catch (e, stk) {
+      print('error: $e');
       throw RuntimeException(this, e, stk);
     }
   }
