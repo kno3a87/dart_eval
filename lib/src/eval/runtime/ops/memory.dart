@@ -12,7 +12,12 @@ class PushArg implements EvcOp {
   // Set value at position to constant
   @override
   void run(Runtime runtime) {
-    runtime.args.add(runtime.frame[_location]);
+    if (_location < 0 || _location >= runtime.frame.length) {
+      // エラー処理または適切なデフォルト値の使用
+      runtime.args.add(null); // または他の適切なデフォルト値
+    } else {
+      runtime.args.add(runtime.frame[_location]);
+    }
   }
 
   @override
